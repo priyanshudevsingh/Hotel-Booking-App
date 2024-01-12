@@ -183,12 +183,45 @@ nav {
 }
 
 .pagination {
-  width: 100%;
-  text-align: center;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
 }
 
 .pagination button {
-  margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.pagination button:hover {
+  background-color: #0056b3;
+}
+
+input[type="text"] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#submit {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#submit:hover {
+  background-color: #0056b3;
 }
 
 /* hotel details css */
@@ -198,7 +231,7 @@ nav {
   padding: 20px;
   background-color: #1b2430;
   min-height: 90vh;
-  width: 100%;
+  width: 97.35%;
 }
 
 .listing-details {
@@ -207,7 +240,7 @@ nav {
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 10px 10px 10px 10px #ffe59a;
 }
 
 .listing-image {

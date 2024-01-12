@@ -5,7 +5,7 @@ import NavBar from "./Components/navbar";
 import Home from "./Components/home";
 import HotelListings from "./Components/hotelListings";
 import HotelDetails from "./Components/hotelDetails";
-import Thanks from "./Components/thanks";
+
 
 function App() {
   return (
