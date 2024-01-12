@@ -28,6 +28,22 @@ const HotelDetails = () => {
 
     fetchHotelsData();
   }, [id]);
+
+  const calDateTime = (createdAt) => {
+    const dateTime = new Date(createdAt);
+
+    const day = String(dateTime.getDate()).padStart(2, "0");
+    const month = String(dateTime.getMonth() + 1).padStart(2, "0");
+    const year = dateTime.getFullYear();
+
+    const hours = String(dateTime.getHours()).padStart(2, "0");
+    const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+
+    const formattedDate = `${day}-${month}-${year} at ${hours}:${minutes}`;
+
+    return formattedDate;
+  };
+
   return (
     <div className="listing-details-container">
       {details && (
@@ -41,9 +57,16 @@ const HotelDetails = () => {
             <p className="listing-location">
               Location: {details.latitude}, {details.longitude}
             </p>
-            <p className="listing-listed-on">Listed On: {details.listedOn}</p>
+            <p className="listing-listed-on">
+              Listed On: {calDateTime(details.listedOn)}
+            </p>
             <p className="listing-zipcode">Zipcode: {details.zipcode}</p>
-            <button className="book-now-button" disabled={details.status===false}>Reserve</button>
+            <button
+              className="book-now-button"
+              disabled={details.status === false}
+            >
+              Reserve
+            </button>
           </div>
         </div>
       )}

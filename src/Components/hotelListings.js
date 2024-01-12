@@ -6,7 +6,6 @@ import {
   Marker,
   InfoWindow,
 } from "@react-google-maps/api";
-// import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import { GOOGLE_MAPS_API_KEY } from "./apiKey";
@@ -107,7 +106,7 @@ const HotelListings = () => {
                       lng: parseFloat(hotel.longitude),
                     }}
                   >
-                    <p>{`Price: $${Math.round(hotel.price)}`}</p>
+                    <p>{`$${Math.round(hotel.price)}`}</p>
                   </InfoWindow>
                 </Marker>
               ))}
