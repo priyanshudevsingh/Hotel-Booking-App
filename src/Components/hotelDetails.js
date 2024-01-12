@@ -1,6 +1,6 @@
 import React from 'react'
 
-const hotelDetails = () => {
+const HotelDetails = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const hotelDetails = () => {
   )
 }
 
-export default hotelDetails
+export default HotelDetails
