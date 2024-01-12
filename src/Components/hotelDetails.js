@@ -54,9 +54,6 @@ const HotelDetails = () => {
             <p className="listing-description">{details.description}</p>
             <p className="listing-price">Price: ${details.price}</p>
             <p className="listing-listed-by">Listed By: {details.listedBy}</p>
-            <p className="listing-location">
-              Location: {details.latitude}, {details.longitude}
-            </p>
             <p className="listing-listed-on">
               Listed On: {calDateTime(details.listedOn)}
             </p>

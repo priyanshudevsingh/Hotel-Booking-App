@@ -4,7 +4,6 @@ import {
   GoogleMap,
   useJsApiLoader,
   Marker,
-  InfoWindow,
 } from "@react-google-maps/api";
 
 import "leaflet/dist/leaflet.css";
@@ -82,6 +81,15 @@ const HotelListings = () => {
   const firstCardIndex = lastCardIndex - 4;
   const currentCards = hotels.slice(firstCardIndex, lastCardIndex);
 
+  const customRectangleIcon = {
+    path: 'M -10 -5 L -10 5 L 10 5 L 10 -5 Z',
+    fillColor: 'orange',
+    fillOpacity: 1,
+    strokeColor: 'black',
+    strokeWeight: 1,
+    scale: 2,
+  };
+
   return (
     <>
       <div className="home-container">
@@ -99,15 +107,10 @@ const HotelListings = () => {
                     lat: parseFloat(hotel.latitude),
                     lng: parseFloat(hotel.longitude),
                   }}
+                  label={`$ ${parseInt(hotel.price)}`}
+                  title={hotel.name}
+                  icon={customRectangleIcon}
                 >
-                  <InfoWindow
-                    position={{
-                      lat: parseFloat(hotel.latitude),
-                      lng: parseFloat(hotel.longitude),
-                    }}
-                  >
-                    <p>{`$${Math.round(hotel.price)}`}</p>
-                  </InfoWindow>
                 </Marker>
               ))}
             </GoogleMap>
