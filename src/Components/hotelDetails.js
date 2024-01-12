@@ -44,7 +44,7 @@ const HotelDetails = () => {
             <p className="listing-listed-on">Listed On: {details.listedOn}</p>
             <p className="listing-zipcode">Zipcode: {details.zipcode}</p>
             <p className="listing-status">Status: {details.status}</p>
-            <button className="book-now-button">Book Now</button>
+            <button className="book-now-button">Reserve</button>
           </div>
         </div>
       )}

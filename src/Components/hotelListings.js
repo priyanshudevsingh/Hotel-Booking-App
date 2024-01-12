@@ -16,7 +16,6 @@ const HotelListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedHotel, setSelectedHotel] = useState(null);
 
   const containerStyle = {
     width: "100%",
@@ -48,10 +47,12 @@ const HotelListings = () => {
         );
 
         const data = await res.json();
+
         // Filter hotels based on the search query
         const filteredHotels = data.filter((hotel) =>
           hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
+
         setHotels(filteredHotels);
         setTotalPages(Math.ceil(filteredHotels.length / 4));
       } catch (error) {
@@ -60,7 +61,7 @@ const HotelListings = () => {
     };
 
     fetchHotelsData();
-  }, [searchQuery]);
+  }, [currentPage, searchQuery]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -78,10 +79,6 @@ const HotelListings = () => {
     setCurrentPage(page);
   };
 
-  const handleMarkerClick = (hotel) => {
-    setSelectedHotel(hotel);
-  };
-
   const lastCardIndex = currentPage * 4;
   const firstCardIndex = lastCardIndex - 4;
   const currentCards = hotels.slice(firstCardIndex, lastCardIndex);
@@ -95,27 +92,25 @@ const HotelListings = () => {
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={13}
+              zoom={3}
             >
-              {hotels.map((hotel) => (
+              {currentCards.map((hotel) => (
                 <Marker
-                  key={hotel.id}
-                  position={{ lat: hotel.latitude, lng: hotel.longitude }}
-                  onClick={() => handleMarkerClick(hotel)}
-                />
-              ))}
-
-              {selectedHotel && (
-                <InfoWindow
                   position={{
-                    lat: selectedHotel.latitude,
-                    lng: selectedHotel.longitude,
+                    lat: parseFloat(hotel.latitude),
+                    lng: parseFloat(hotel.longitude),
                   }}
-                  onCloseClick={() => setSelectedHotel(null)}
                 >
-                  <div>{selectedHotel.price}</div>
-                </InfoWindow>
-              )}
+                  <InfoWindow
+                    position={{
+                      lat: parseFloat(hotel.latitude),
+                      lng: parseFloat(hotel.longitude),
+                    }}
+                  >
+                    <p>{`Price: $${Math.round(hotel.price)}`}</p>
+                  </InfoWindow>
+                </Marker>
+              ))}
             </GoogleMap>
           )}
         </div>
