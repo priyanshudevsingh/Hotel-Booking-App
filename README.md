@@ -38,3 +38,9 @@ To use the Gmail API, you need to set up API credentials. Follow these steps:
 6. After successfully filling you will get api key.
 7. Copy that API key and make a .env file and add it there as `REACT_APP_GOOGLE_MAPS_API_KEY="<your_api_key>"`.
 8. Now you are good to go.
+
+
+## Here are some Snapshots of the App
+<img src="src/assets/Home.png" >
+<img src="src/assets/HotelListings.png" >
+<img src="src/assets/HotelDetails.png" >

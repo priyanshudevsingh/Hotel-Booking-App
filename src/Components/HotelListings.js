@@ -32,7 +32,7 @@ const HotelListings = () => {
     const fetchHotelsData = async () => {
       try {
         const res = await fetch(
-          `https://65841ac24d1ee97c6bcefd4e.mockapi.io/hotellistings`,
+          process.env.REACT_APP_MOCK_API,
           {
             method: "GET",
             headers: {

@@ -14,7 +14,7 @@ const HotelDetails = () => {
       try {
         // Fetching hotel details from the mock API using the provided ID
         const res = await fetch(
-          `https://65841ac24d1ee97c6bcefd4e.mockapi.io/hotellistings/${id}`,
+          process.env.REACT_APP_MOCK_API+`/${id}`,
           {
             method: "GET",
             headers: {
