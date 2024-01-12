@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import L from "leaflet";
+import {
+  GoogleMap,
+  useJsApiLoader,
+  Marker,
+  InfoWindow,
+} from "@react-google-maps/api";
+// import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import { GOOGLE_MAPS_API_KEY } from "./apiKey";
@@ -11,6 +16,22 @@ const HotelListings = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedHotel, setSelectedHotel] = useState(null);
+
+  const containerStyle = {
+    width: "100%",
+    height: "100vh",
+  };
+
+  const center = {
+    lat: -3.745,
+    lng: -38.523,
+  };
+
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+  });
 
   useEffect(() => {
     const fetchHotelsData = async () => {
@@ -27,20 +48,19 @@ const HotelListings = () => {
         );
 
         const data = await res.json();
-        setHotels(data);
         // Filter hotels based on the search query
         const filteredHotels = data.filter((hotel) =>
           hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setHotels(filteredHotels);
-        setTotalPages(Math.ceil(data.length / 4));
+        setTotalPages(Math.ceil(filteredHotels.length / 4));
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchHotelsData();
-  }, [currentPage, searchQuery]);
+  }, [searchQuery]);
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -58,6 +78,10 @@ const HotelListings = () => {
     setCurrentPage(page);
   };
 
+  const handleMarkerClick = (hotel) => {
+    setSelectedHotel(hotel);
+  };
+
   const lastCardIndex = currentPage * 4;
   const firstCardIndex = lastCardIndex - 4;
   const currentCards = hotels.slice(firstCardIndex, lastCardIndex);
@@ -67,40 +91,49 @@ const HotelListings = () => {
       <div className="home-container">
         {/* left side google maps */}
         <div className="map-container">
-          <MapContainer
-            center={[48.8589633, 2.1822227]}
-            zoom={13}
-            style={{ height: "100vh", width: "100%" }}
-          >
-            <TileLayer
-              url={`https://maps.googleapis.com/maps/api/tile?key=${GOOGLE_MAPS_API_KEY}&zoom={z}&x={x}&y={y}`}
-            />
-            {hotels.map((hotel) => (
-              <Marker
-                key={hotel.id}
-                position={[hotel.latitude, hotel.longitude]}
-              >
-                <Popup>{hotel.name}</Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+          {isLoaded && (
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={13}
+            >
+              {hotels.map((hotel) => (
+                <Marker
+                  key={hotel.id}
+                  position={{ lat: hotel.latitude, lng: hotel.longitude }}
+                  onClick={() => handleMarkerClick(hotel)}
+                />
+              ))}
+
+              {selectedHotel && (
+                <InfoWindow
+                  position={{
+                    lat: selectedHotel.latitude,
+                    lng: selectedHotel.longitude,
+                  }}
+                  onCloseClick={() => setSelectedHotel(null)}
+                >
+                  <div>{selectedHotel.price}</div>
+                </InfoWindow>
+              )}
+            </GoogleMap>
+          )}
         </div>
 
         {/* right side hotels list */}
-
         <div className="cards-container">
-          {currentCards.map((hotels) => (
-            <div key={hotels.id} className="card">
+          {currentCards.map((hotel) => (
+            <div key={hotel.id} className="card">
               <div className="card-link">
                 <div className="card-content">
                   <img
-                    src={hotels.imageURL}
+                    src={hotel.imageURL}
                     alt="img"
                     className="card-image"
                   ></img>
-                  <h2 className="card-title">{hotels.name}</h2>
-                  <p className="card-price">Price: ${hotels.price}</p>
-                  <NavLink to={`/hotels/${hotels.id}`}>
+                  <h2 className="card-title">{hotel.name}</h2>
+                  <p className="card-price">Price: ${hotel.price}</p>
+                  <NavLink to={`/hotel_details/${hotel.id}`}>
                     <button type="submit" id="submit">
                       View Details
                     </button>
