@@ -26,7 +26,7 @@ A travel booking website that allows users to search for accommodations and make
 
 The application will start on http://localhost:3000.
 
-## Obtaining credentials.json File
+## Obtaining API Key
 
 To use the Gmail API, you need to set up API credentials. Follow these steps:
 
