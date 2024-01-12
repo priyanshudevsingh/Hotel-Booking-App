@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  Marker,
-} from "@react-google-maps/api";
-
+import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import "leaflet/dist/leaflet.css";
-import { GOOGLE_MAPS_API_KEY } from "./apiKey";
 
 const HotelListings = () => {
+  // State variables
   const [hotels, setHotels] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Google Maps configuration
   const containerStyle = {
     width: "100%",
     height: "100vh",
@@ -25,11 +21,13 @@ const HotelListings = () => {
     lng: -38.523,
   };
 
+  // Load Google Maps API script
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   });
 
+  // Fetch hotels data from the mock API
   useEffect(() => {
     const fetchHotelsData = async () => {
       try {
@@ -61,6 +59,7 @@ const HotelListings = () => {
     fetchHotelsData();
   }, [currentPage, searchQuery]);
 
+  // Handlers for pagination
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -77,15 +76,17 @@ const HotelListings = () => {
     setCurrentPage(page);
   };
 
+  // Calculate indices for the currently visible cards
   const lastCardIndex = currentPage * 4;
   const firstCardIndex = lastCardIndex - 4;
   const currentCards = hotels.slice(firstCardIndex, lastCardIndex);
 
+  // Custom marker icon for Google Maps
   const customRectangleIcon = {
-    path: 'M -10 -5 L -10 5 L 10 5 L 10 -5 Z',
-    fillColor: 'orange',
+    path: "M -10 -5 L -10 5 L 10 5 L 10 -5 Z",
+    fillColor: "orange",
     fillOpacity: 1,
-    strokeColor: 'black',
+    strokeColor: "black",
     strokeWeight: 1,
     scale: 2,
   };
@@ -93,7 +94,7 @@ const HotelListings = () => {
   return (
     <>
       <div className="home-container">
-        {/* left side google maps */}
+        {/* Left side: Google Maps */}
         <div className="map-container">
           {isLoaded && (
             <GoogleMap
@@ -101,8 +102,10 @@ const HotelListings = () => {
               center={center}
               zoom={3}
             >
+              {/* Display markers on the map for each hotel */}
               {currentCards.map((hotel) => (
                 <Marker
+                  key={hotel.id}
                   position={{
                     lat: parseFloat(hotel.latitude),
                     lng: parseFloat(hotel.longitude),
@@ -110,15 +113,15 @@ const HotelListings = () => {
                   label={`$ ${parseInt(hotel.price)}`}
                   title={hotel.name}
                   icon={customRectangleIcon}
-                >
-                </Marker>
+                />
               ))}
             </GoogleMap>
           )}
         </div>
 
-        {/* right side hotels list */}
+        {/* Right side: Hotels list and search */}
         <div className="cards-container">
+          {/* Display hotel cards */}
           {currentCards.map((hotel) => (
             <div key={hotel.id} className="card">
               <div className="card-link">
@@ -130,6 +133,7 @@ const HotelListings = () => {
                   ></img>
                   <h2 className="card-title">{hotel.name}</h2>
                   <p className="card-price">Price: ${hotel.price}</p>
+                  {/* Link to hotel details page */}
                   <NavLink to={`/hotel_details/${hotel.id}`}>
                     <button type="submit" id="submit">
                       View Details
@@ -139,6 +143,7 @@ const HotelListings = () => {
               </div>
             </div>
           ))}
+
           {/* Search bar */}
           <input
             type="text"
@@ -146,40 +151,35 @@ const HotelListings = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+
+          {/* Pagination buttons */}
           <div className="pagination">
             <button onClick={handlePrevPage} disabled={currentPage === 1}>
               Previous
             </button>
 
-            <button
-              onClick={() => handlePageChange(currentPage)}
-              disabled={currentPage > totalPages}
-            >
-              {currentPage}
-            </button>
-
-            {currentPage + 1 <= totalPages ? (
+            {/* Display current and next pages */}
+            {[currentPage, currentPage + 1].map((page) => (
               <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage + 1 > totalPages}
+                key={page}
+                onClick={() => handlePageChange(page)}
+                disabled={page > totalPages}
               >
-                {currentPage + 1}
+                {page}
               </button>
-            ) : (
-              <span></span>
-            )}
+            ))}
 
-            {currentPage + 2 <= totalPages ? (
+            {/* Display second next page if applicable */}
+            {currentPage + 2 <= totalPages && (
               <button
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={() => handlePageChange(currentPage + 2)}
                 disabled={currentPage + 2 > totalPages}
               >
                 {currentPage + 2}
               </button>
-            ) : (
-              <span></span>
             )}
 
+            {/* Next page button */}
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}

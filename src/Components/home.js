@@ -2,12 +2,17 @@ import React from "react";
 import bookingmeme from "../assets/bookingmeme.gif";
 import { useNavigate } from "react-router-dom";
 
+// Functional component for the Home page
 const Home = () => {
   const navigate = useNavigate();
+
+  // Function to handle the redirection to the "/hotel_listings" route
   const redirect = (e) => {
-    e.preventDefault();
-    navigate("/hotel_listings");
+    e.preventDefault(); // Preventing the default form submission behavior
+    navigate("/hotel_listings"); // Navigating to the "/hotel_listings" route
   };
+
+  // JSX structure for the Home component
   return (
     <>
       <section className="homepage">
@@ -28,6 +33,7 @@ const Home = () => {
 
         <img className="bookingmeme" src={bookingmeme} alt="booking meme"></img>
 
+        {/* Button to trigger the redirection */}
         <button className="redirectbut" onClick={redirect}>
           Book Hotel Now
         </button>
@@ -36,4 +42,5 @@ const Home = () => {
   );
 };
 
+// Exporting the Home component as the default export
 export default Home;
