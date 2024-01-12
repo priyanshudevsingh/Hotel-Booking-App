@@ -6,7 +6,7 @@ const NavBar = () => {
   const RenderMenu = () => {
     return (
       <>
-        <img src={logo} alt="logo" title="App Logo" width="250"></img>
+        <img src={logo} alt="logo" title="App Logo" width="200"></img>
         <div>
           <ul id="navbar">
             <li>
