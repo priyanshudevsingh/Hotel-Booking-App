@@ -39,8 +39,16 @@ To use the Gmail API, you need to set up API credentials. Follow these steps:
 7. Copy that API key and make a .env file and add it there as `REACT_APP_GOOGLE_MAPS_API_KEY="<your_api_key>"`.
 8. Now you are good to go.
 
-## Explanatory Video
-<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/f90440d4d42e4d0cbc21371854c00e38?sid=2438d3c9-ed07-4a08-a3d3-0889687ef556" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+## Explanatory Video Link
+https://www.loom.com/embed/f90440d4d42e4d0cbc21371854c00e38?sid=2438d3c9-ed07-4a08-a3d3-0889687ef556
+<div>
+    <a href="https://www.loom.com/share/f90440d4d42e4d0cbc21371854c00e38">
+      <p>Hotel Booking App Demo - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/f90440d4d42e4d0cbc21371854c00e38">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/f90440d4d42e4d0cbc21371854c00e38-with-play.gif">
+    </a>
+  </div>
 
 
 ## Here are some Snapshots of the App
